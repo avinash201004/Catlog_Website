@@ -92,7 +92,7 @@
       .lightbox-prev { left: 8px; }
       .lightbox-next { right: 8px; }
     }
-        .btn {
+    .btn {
       padding: 12px 25px;
       border: none;
       border-radius: 6px;
@@ -109,8 +109,6 @@
     .btn:hover {
       background-color: #218838;
     }
-
-
     body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 40px; }
     .buy { background: #28a745; color: #fff; padding: 12px 25px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
     .buy:hover { background: #218838; }
@@ -164,146 +162,168 @@
       display: flex; align-items: center; gap: 8px; color: #1459c1; text-decoration: none; font-weight: 500;
       margin-top: 4px; font-size: 1.09em;
     }
+    /* Universal responsive fixes */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    /* Responsive body */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+      padding: 12px;
+    }
+    /* Container responsive */
+    .container {
+      max-width: 1000px;
+      width: 100%;
+      margin: auto;
+      padding: 10px;
+    }
+    /* Flex direction for mobile */
+    .product-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      background: white;
+      padding: 14px;
+    }
+    @media (max-width: 700px) {
+      .product-header {
+        flex-direction: column;
+        align-items: center;
+        padding: 7px 4px;
+      }
+      .container {
+        padding: 4px;
+      }
+    }
+    /* Image gallery and main image */
+    .image-gallery {
+      width: 100%;
+      max-width: 350px;
+      margin: auto;
+      padding: 0;
+    }
+    #mainImage {
+      width: 100%;
+      height: auto !important;
+      max-width: 350px;
+      max-height: 210px;
+      display: block;
+      border-radius: 8px;
+      background: #f4f4f4;
+      border: 1px solid #ddd;
+      margin: auto;
+    }
+    /* Product details section */
+    .product-details {
+      width: 100%;
+      min-width: 0;
+      margin-top: 12px;
+    }
+    @media (max-width: 700px) {
+      .product-details {
+        width: 100%;
+        margin-top: 18px;
+      }
+    }
+    /* Table responsive fix */
+    table {
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-size: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    th, td {
+      padding: 8px 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      font-size: 1em;
+    }
+    @media (max-width:600px) {
+      table, th, td {
+        font-size: 14px;
+        word-break: break-all;
+      }
+    }
+    /* Modal responsive fix */
+    .contact-modal {
+      width: 98vw;
+      max-width: 98vw;
+      min-width: 0;
+      box-sizing: border-box;
+      padding: 12px 7px 14px 7px;
+    }
+    /* Button and links responsive */
+    .buy, .btn {
+      width: 100%;
+      max-width: 340px;
+      padding: 12px;
+      font-size: 1em;
+      margin-bottom: 11px;
+    }
+    .price {
+      font-size: 1.14em;
+      color: #009040;
+    }
+    /* Description responsive */
+    .description {
+      background: white;
+      padding: 10px;
+      margin-top: 13px;
+      border-radius: 7px;
+      font-size: 0.95em;
+    }
+    /* Hide horizontal scroll on small screens */
+    html, body {
+      overflow-x: hidden;
+    }
+    .buy {
+      background-color: #28a745;
+      color: #fff;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      display: block;
+      text-align: center;
+      margin: 10px 0 0 0;
+      box-sizing: border-box;
+      transition: background .3s;
+      text-decoration: none;
+    }
+    .buy:hover {
+      background-color: #218838;
+      color: #fff;
+      text-decoration: none;
+    }
 
-
- 
- /* Universal responsive fixes */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* Responsive body */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f9f9f9;
-  color: #333;
-  padding: 12px;
-}
-
-/* Container responsive */
-.container {
-  max-width: 1000px;
-  width: 100%;
-  margin: auto;
-  padding: 10px;
-}
-
-/* Flex direction for mobile */
-.product-header {
+    .links-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  background: white;
-  padding: 14px;
+  gap: 38px;
+  margin: 12px 0 24px 0;
+  align-items: center;
 }
-@media (max-width: 700px) {
-  .product-header {
-    flex-direction: column;
-    align-items: center;
-    padding: 7px 4px;
-  }
-  .container {
-    padding: 4px;
-  }
+.prod-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #1459c1;
+  text-decoration: none;
+  font-size: 1.04em;
+  font-weight: 500;
+  transition: color 0.2s;
 }
-
-/* Image gallery and main image */
-.image-gallery {
-  width: 100%;
-  max-width: 350px;
-  margin: auto;
-  padding: 0;
-}
-#mainImage {
-  width: 100%;
-  height: auto !important;
-  max-width: 350px;
-  max-height: 210px;
-  display: block;
-  border-radius: 8px;
-  background: #f4f4f4;
-  border: 1px solid #ddd;
-  margin: auto;
-}
-
-/* Product details section */
-.product-details {
-  width: 100%;
-  min-width: 0;
-  margin-top: 12px;
-}
-@media (max-width: 700px) {
-  .product-details {
-    width: 100%;
-    margin-top: 18px;
-  }
-}
-
-/* Table responsive fix */
-table {
-  width: 100%;
-  overflow-x: auto;
-  display: block;
-  font-size: 15px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-th, td {
-  padding: 8px 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-  font-size: 1em;
-}
-@media (max-width:600px) {
-  table, th, td {
-    font-size: 14px;
-    word-break: break-all;
-  }
-}
-
-/* Modal responsive fix */
-.contact-modal {
-  width: 98vw;
-  max-width: 98vw;
-  min-width: 0;
-  box-sizing: border-box;
-  padding: 12px 7px 14px 7px;
-}
-
-/* Button and links responsive */
-.buy, .btn {
-  width: 100%;
-  max-width: 340px;
-  padding: 12px;
-  font-size: 1em;
-  margin-bottom: 11px;
-}
-
-.price {
-  font-size: 1.14em;
-  color: #009040;
-}
-
-/* Description responsive */
-.description {
-  background: white;
-  padding: 10px;
-  margin-top: 13px;
-  border-radius: 7px;
-  font-size: 0.95em;
-}
-
-/* Hide horizontal scroll on small screens */
-html, body {
-  overflow-x: hidden;
-}
-
-
-
+.prod-link:hover { color: #0a7535;}
 
   </style>
 </head>
@@ -313,182 +333,72 @@ html, body {
       <div class="image-gallery">
         <img id="mainImage" src="Light-0001/Light-0001.jpg" alt="Underwater LED Light" onclick="openLightbox(currentImg)" />
         <div class="thumb-strip-wrapper" style="margin-top: 10px;">
-          <button class="thumbnails-nav-btn" id="thumbLeftBtn" onclick="thumbSlide(-1)" disabled>&lt;</button>
-          <div class="thumbnails3" id="thumbnails"></div>
-          <button class="thumbnails-nav-btn" id="thumbRightBtn" onclick="thumbSlide(1)">&gt;</button>
+          <button class="thumbnails-nav-btn" id="thumbLeftBtn" onclick="thumbSlide(-1)" disabled aria-label="Scroll thumbnails left">&lt;</button>
+          <div class="thumbnails3" id="thumbnails" aria-label="Thumbnail images"></div>
+          <button class="thumbnails-nav-btn" id="thumbRightBtn" onclick="thumbSlide(1)" aria-label="Scroll thumbnails right">&gt;</button>
         </div>
       </div>
       <div class="product-details">
-        <h1>Underwater LED Light (For Fountain)</h1>
+        <h1>Underwater LED Light</h1>
         <div class="price">₹2,725 / Piece</div>
-  <div class="prod-links">
-
-  <!-- Here paste the product video & brochure links -->
-  <div style="display: flex; gap: 35px; align-items: center; margin: 25px 0 10px 0; font-size: 1.09em;">
-    <!-- Product Video link with icon -->
-    <a href="javascript:void(0)" onclick="alert('Product Video is not Available')"
-      style="display: flex; align-items: center; gap:8px; color: #1459c1; text-decoration: none; font-weight: 500;">
-      <span style="display:inline-block; vertical-align: middle;">
-        <!-- Video icon SVG -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="#e14616" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="11" fill="#fff" stroke="#e14616" stroke-width="1.8"/>
-          <polygon points="10,8 17,12 10,16" fill="#e14616"/>
-        </svg>
-      </span>
-      Product Video
-    </a>
-
-    <!-- Product Brochure link with icon -->
-    <a href="Light-0001/Product Brochure.pdf" target="_blank"
-      style="display: flex; align-items: center; gap:8px; color: #1459c1; text-decoration: none; font-weight: 500;">
-      <span style="display:inline-block; vertical-align: middle;">
-        <!-- PDF icon SVG -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" fill="none" viewBox="0 0 20 22">
-          <rect x="1.1" y="1.6" width="17.8" height="18.7" rx="2.2" fill="#fff" stroke="#ff0707" stroke-width="1.5"/>
-          <rect x="3.7" y="4.5" width="12.7" height="13.2" rx="1.2" fill="#ff0707"/>
-          <text x="10" y="13.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="6" fill="#fff" font-weight="bold">PDF</text>
-        </svg>
-      </span>
-      Product Brochure
-    </a>
-  </div>
-
-  <!-- Rest of your product details -->
+        <div class="prod-links">
+          <!-- Product Video link: Hidden because video not available -->
+          <!-- <a href="javascript:void(0)" onclick="alert('Product Video is not Available')" style="display: none;">Product Video</a> -->
+<div class="links-row">
+  <a href="javascript:void(0)" onclick="alert('Product Video is not Available')" class="prod-link">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#fff" stroke="#e14616" stroke-width="1.8"/><polygon points="10,8 17,12 10,16" fill="#e14616"/></svg>
+    Product Video
+  </a>
+  <a href="Light-0001/Product Brochure.pdf" target="_blank" rel="noopener" class="prod-link">
+    <svg width="18" height="20" viewBox="0 0 20 22" fill="none"><rect x="1.1" y="1.6" width="17.8" height="18.7" rx="2.2" fill="#fff" stroke="#ff0707" stroke-width="1.5"/><rect x="3.7" y="4.5" width="12.7" height="13.2" rx="1.2" fill="#ff0707"/><text x="10" y="13.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="6" fill="#fff" font-weight="bold">PDF</text></svg>
+    Product Brochure
+  </a>
 </div>
 
-  <button class="buy" onclick="openModal()">Buy Now</button>
-
-  <!-- Modal form popup -->
-  <div class="modal-bg" id="modalBg">
-    <form class="contact-modal" id="contactForm" onsubmit="return submitFormToWhatsApp(event)">
-      <button type="button" class="close-modal" onclick="closeModal()">&times;</button>
-      <h2>Contact information</h2>
-      <label for="name">Your Name</label>
-      <input id="name" name="name" required autocomplete="name" />
-
-      <label for="email">Your E-mail</label>
-      <input id="email" name="email" required type="email" autocomplete="email" />
-
-      <label for="phone">Phone</label>
-      <input id="phone" name="phone" required type="tel" autocomplete="tel" maxlength="15" />
-
-      <label for="department">Select Department</label>
-      <select id="department" name="department" required>
-        <option value="" disabled selected>Choose...</option>
-        <option>General</option>
-        <option>Sales</option>
-        <option>Support</option>
-        <option>Other</option>
-      </select>
-
-      <label for="message">Your Message</label>
-      <textarea id="message" name="message" placeholder="Type your message here..."></textarea>
-
-      <div class="form-radio-row">
-        <label>
-          <input type="radio" name="queryType" value="General" checked /> General
-        </label>
-        <label>
-          <input type="radio" name="queryType" value="Hi" /> Say Hi
-        </label>
-        <label>
-          <input type="radio" name="queryType" value="Other" /> Other
-        </label>
-      </div>
-
-      <button type="submit" class="buy submit-btn">Submit</button>
-    </form>
-  </div>
-
-  <script>
-    function openModal()   { document.getElementById('modalBg').classList.add('active'); }
-    function closeModal()  { document.getElementById('modalBg').classList.remove('active'); }
-    // Optional: close on outside click
-    document.getElementById('modalBg').onclick = function(e) {
-      if(e.target === this) closeModal();
-    };
-
-    function submitFormToWhatsApp(event) {
-      event.preventDefault();
-
-      // Get form values
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const dept = document.getElementById('department').value;
-      const message = document.getElementById('message').value.trim();
-      const queryType = document.querySelector('input[name="queryType"]:checked').value;
-
-//You can customize the product details below
-      // Product details (customize yahan)
-      const productName = "Swimming Pool LED Light";
-      const price = "₹2,725.00";
-      const voltage = "12V DC";
-      const wattage = "18W";
-      const lightBody = "ABS Body";
-      const whatsappNumber = "919818090341"; // Only digits, no +
-//End of recent edits
-
-      // Message
-      const waMsg =
-        `*Contact Enquiry*\n\n` +
-        `*Product Name:* ${productName}\n` +
-        `*Price:* ${price}\n` +
-        `*Voltage:* ${voltage}\n` +
-        `*Wattage:* ${wattage}\n` +
-        `*Light Body:* ${lightBody}\n\n` +
-        `*Name:* ${name}\n`  +
-        `*Email:* ${email}\n`  +
-        `*Phone:* ${phone}\n` +
-        `*Department:* ${dept}\n` +
-        (message ? `*Message:* ${message}\n` : "") +
-        `*Type:* ${queryType}\n\n` +
-        `Please give me Quotation.`;
-
-      const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waMsg)}`;
-      window.open(waLink, "_blank");
-      closeModal();
-      return false;
-    }
-  </script>
-
-  <!-- Buy Now Button -->
-  <button class="buy" onclick="sendWhatsAppMessage()">
-    Buy Now on WhatsApp
-  </button>
-
-  <!-- Call Now Button (same style, just as a link for direct call) -->
-  <a href="tel:+919818090341" class="btn">
-    Call Now
-  </a>
 
 
-  <script>
-    function sendWhatsAppMessage() {
-      const productName = "Swimming Pool LED Light";
-      const price = "₹2,725.00";
-      const voltage = "12V";
-      const wattage = "18W";
-      const lightBody = "ABS Body";
 
-      // Message format with line breaks \n
-      const message = 
-        `*Product Name:* ${productName}\n` +
-        `*Price:* ${price}\n` +
-        `*Voltage:* ${voltage}\n` +
-        `*Wattage:* ${wattage}\n` +
-        `*Light Body:* ${lightBody}\n\n` +
-        `Please give me Quotation.`;
 
-      // WhatsApp Click-to-Chat link (India number without "+")
-      const whatsappNumber = "919818090341"; 
-      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        <button class="buy" onclick="openModal()">Buy Now</button>
 
-      // Open WhatsApp chat window in new tab
-      window.open(url, "_blank");
-    }
-  </script>
+        <!-- Modal form popup -->
+        <div class="modal-bg" id="modalBg" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+          <form class="contact-modal" id="contactForm" onsubmit="return submitFormToWhatsApp(event)" novalidate>
+            <button type="button" class="close-modal" onclick="closeModal()" aria-label="Close modal">&times;</button>
+            <h2 id="modalTitle">Contact information</h2>
+            <label for="name">Your Name</label>
+            <input id="name" name="name" required autocomplete="name" aria-required="true" />
+            <label for="email">Your E-mail</label>
+            <input id="email" name="email" required type="email" autocomplete="email" aria-required="true" />
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" required type="tel" autocomplete="tel" maxlength="15" pattern="[0-9+ ]{7,15}" aria-required="true" />
+            <label for="department">Select Department</label>
+            <select id="department" name="department" required aria-required="true">
+              <option value="" disabled selected>Choose...</option>
+              <option>General</option>
+              <option>Sales</option>
+              <option>Support</option>
+              <option>Other</option>
+            </select>
+            <label for="message">Your Message</label>
+            <textarea id="message" name="message" placeholder="Type your message here..."></textarea>
+            <div class="form-radio-row" role="radiogroup" aria-label="Query type">
+              <label>
+                <input type="radio" name="queryType" value="General" checked /> General
+              </label>
+              <label>
+                <input type="radio" name="queryType" value="Hi" /> Say Hi
+              </label>
+              <label>
+                <input type="radio" name="queryType" value="Other" /> Other
+              </label>
+            </div>
+            <button type="submit" class="buy submit-btn">Submit</button>
+          </form>
+        </div>
 
+        <button class="buy" onclick="sendWhatsAppMessage()">Buy Now on WhatsApp</button>
+        <button class="buy" onclick="callNow()">Call Now</button>
 
       </div>
     </div>
@@ -504,55 +414,53 @@ html, body {
       <tr><th>Warranty</th><td>1 Year</td></tr>
       <tr><th>Brand</th><td>Water Scape</td></tr>
       <tr><th>Country of Origin</th><td>Made in India</td></tr>
-
     </table>
     <div class="description">
       <h2>Product Description</h2>
       <p>
         Remote control swimming pool LED lights are lighting fixtures specifically designed for use in swimming pools and other aquatic environments. These lights offer several features and benefits tailored to enhance the swimming pool experience:
-<br><br>1. **Remote Control**: These LED lights typically come with a remote control device that allows users to easily adjust various lighting settings such as brightness, color, and lighting effects from a distance. This convenience enables users to customize the pool lighting according to their preferences or mood without having to physically access the light fixtures.
-<br>2. **LED Technology**: Remote control swimming pool LED lights utilize LED (Light Emitting Diode) technology, which offers several advantages including energy efficiency, long lifespan, and vibrant illumination. LED lights produce bright, crisp light while consuming minimal energy, making them cost-effective and environmentally friendly.
-<br>3. **Color Options**: Many remote control LED pool lights offer a wide range of color options, including single-color, multi-color, and color-changing settings. Users can choose from various colors to create different lighting effects and ambiance in the pool area, such as calming blue for relaxation or dynamic color-changing effects for parties or special occasions.
-<br>4. **Brightness Control**: Remote control LED pool lights often feature adjustable brightness settings, allowing users to dim or brighten the lights to their desired level of illumination. This flexibility enables users to create the perfect atmosphere in the pool area, whether for swimming, entertaining, or relaxing.
-<br>5. **Safety Features**: Remote control LED pool lights are designed with safety in mind, with features such as waterproof construction and low-voltage operation to ensure safe use in wet environments. These lights are typically sealed to prevent water ingress and comply with safety standards for use in swimming pools.
-<br>6. **Easy Installation**: Many remote control LED pool lights are designed for easy installation, with options for surface mounting, flush mounting, or submersible installation depending on the specific model. Professional installation may be recommended to ensure proper electrical connections and waterproof sealing.
-<br>7. **Durability**: Remote control LED pool lights are built to withstand the harsh conditions of outdoor and underwater environments, including exposure to water, chemicals, and UV radiation. They are typically constructed from durable materials such as stainless steel or corrosion-resistant plastics to ensure longevity and reliability.
-Overall, remote control swimming pool LED lights are a versatile and stylish lighting solution for enhancing the beauty, safety, and functionality of swimming pools. With their customizable lighting options and convenient remote control operation, these lights provide an easy way to create the perfect ambiance for any pool environment.
+        <br><br>1. <strong>Remote Control</strong>: These LED lights typically come with a remote control device that allows users to easily adjust various lighting settings such as brightness, color, and lighting effects from a distance. This convenience enables users to customize the pool lighting according to their preferences or mood without having to physically access the light fixtures.
+        <br>2. <strong>LED Technology</strong>: Remote control swimming pool LED lights utilize LED (Light Emitting Diode) technology, which offers several advantages including energy efficiency, long lifespan, and vibrant illumination. LED lights produce bright, crisp light while consuming minimal energy, making them cost-effective and environmentally friendly.
+        <br>3. <strong>Color Options</strong>: Many remote control LED pool lights offer a wide range of color options, including single-color, multi-color, and color-changing settings. Users can choose from various colors to create different lighting effects and ambiance in the pool area, such as calming blue for relaxation or dynamic color-changing effects for parties or special occasions.
+        <br>4. <strong>Brightness Control</strong>: Remote control LED pool lights often feature adjustable brightness settings, allowing users to dim or brighten the lights to their desired level of illumination. This flexibility enables users to create the perfect atmosphere in the pool area, whether for swimming, entertaining, or relaxing.
+        <br>5. <strong>Safety Features</strong>: Remote control LED pool lights are designed with safety in mind, with features such as waterproof construction and low-voltage operation to ensure safe use in wet environments. These lights are typically sealed to prevent water ingress and comply with safety standards for use in swimming pools.
+        <br>6. <strong>Easy Installation</strong>: Many remote control LED pool lights are designed for easy installation, with options for surface mounting, flush mounting, or submersible installation depending on the specific model. Professional installation may be recommended to ensure proper electrical connections and waterproof sealing.
+        <br>7. <strong>Durability</strong>: Remote control LED pool lights are built to withstand the harsh conditions of outdoor and underwater environments, including exposure to water, chemicals, and UV radiation. They are typically constructed from durable materials such as stainless steel or corrosion-resistant plastics to ensure longevity and reliability.
+        Overall, remote control swimming pool LED lights are a versatile and stylish lighting solution for enhancing the beauty, safety, and functionality of swimming pools. With their customizable lighting options and convenient remote control operation, these lights provide an easy way to create the perfect ambiance for any pool environment.
       </p>
       <ul>
-        <li><b>Design:</b> Submersible, round, ABS Body.</li>
-        <li><b>Technology:</b> 9 LEDs (3W each), long life, efficient.</li>
-        <li><b>Remote:</b> Multi-function remote with brightness and effect control.</li>
-        <li><b>Certified:</b> ISO 9001:2015.</li>
+        <li><strong>Design:</strong> Submersible, round, ABS Body.</li>
+        <li><strong>Technology:</strong> 9 LEDs (3W each), long life, efficient.</li>
+        <li><strong>Remote:</strong> Multi-function remote with brightness and effect control.</li>
+        <li><strong>Certified:</strong> ISO 9001:2015.</li>
       </ul>
     </div>
   </div>
 
   <!-- LIGHTBOX OVERLAY (with paging thumbs) -->
-  <div id="lightboxOverlay" onclick="closeLightbox(event)">
+  <div id="lightboxOverlay" onclick="closeLightbox(event)" role="dialog" aria-modal="true" aria-label="Image preview">
     <div id="lightboxContent" onclick="event.stopPropagation();">
-      <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+      <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="Close image preview">&times;</button>
       <div class="lightbox-toolbar">
-        <button class="lightbox-icon" title="Zoom In" onclick="zoomIn(event)">&#128269;+</button>
-        <button class="lightbox-icon" title="Zoom Out" onclick="zoomOut(event)">&#128269;-</button>
-        <a class="lightbox-icon" id="downloadLink" title="Download" download href="#" onclick="event.stopPropagation();">&#128229;</a>
+        <button class="lightbox-icon" title="Zoom In" onclick="zoomIn(event)" aria-label="Zoom in">&#128269;+</button>
+        <button class="lightbox-icon" title="Zoom Out" onclick="zoomOut(event)" aria-label="Zoom out">&#128269;-</button>
+        <a class="lightbox-icon" id="downloadLink" title="Download" download href="#" onclick="event.stopPropagation();" aria-label="Download current image">&#128229;</a>
       </div>
       <div id="lightboxImgBox">
-        <button class="lightbox-nav lightbox-prev" onclick="prevImg(event)">&laquo;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="prevImg(event)" aria-label="Previous image">&laquo;</button>
         <img id="lightboxImg" src="" alt="Image preview">
-        <button class="lightbox-nav lightbox-next" onclick="nextImg(event)">&raquo;</button>
+        <button class="lightbox-nav lightbox-next" onclick="nextImg(event)" aria-label="Next image">&raquo;</button>
       </div>
       <!-- Paginated thumbnail bar below -->
       <div id="lightboxThumbStrip">
-        <button class="lightbox-thumbnails-nav-btn" id="lightboxThumbLeftBtn" onclick="lightboxThumbSlide(-1)" disabled>&lt;</button>
-        <div id="lightboxThumbs"></div>
-        <button class="lightbox-thumbnails-nav-btn" id="lightboxThumbRightBtn" onclick="lightboxThumbSlide(1)">&gt;</button>
+        <button class="lightbox-thumbnails-nav-btn" id="lightboxThumbLeftBtn" onclick="lightboxThumbSlide(-1)" disabled aria-label="Scroll thumbnails left">&lt;</button>
+        <div id="lightboxThumbs" aria-label="Thumbnail images"></div>
+        <button class="lightbox-thumbnails-nav-btn" id="lightboxThumbRightBtn" onclick="lightboxThumbSlide(1)" aria-label="Scroll thumbnails right">&gt;</button>
       </div>
     </div>
   </div>
 
   <script>
-    // USE YOUR OWN IMAGE PATHS!
     const galleryImgs = [
       "Light-0001/Light-0001.jpg",
       "Light-0001/Light-0001-2.jpg",
@@ -561,9 +469,9 @@ Overall, remote control swimming pool LED lights are a versatile and stylish lig
       "Light-0001/Light-0001-5.jpg",
       "Light-0001/Light-0001-6.jpg",
       "Light-0001/Light-0001-7.jpg"
-      // add up to 15 images
     ];
     let currentImg = 0, thumbStart = 0, THUMBS_PER_PAGE = 3;
+
     // Main page thumbnail strip logic
     function renderThumbnails() {
       const thumbDiv = document.getElementById('thumbnails');
@@ -573,7 +481,7 @@ Overall, remote control swimming pool LED lights are a versatile and stylish lig
         const img = document.createElement('img');
         img.src = galleryImgs[i];
         img.className = (i === currentImg ? 'active' : '');
-        img.alt = "Thumb "+(i+1);
+        img.alt = "Thumbnail image " + (i + 1);
         img.onclick = ()=> showImage(i);
         thumbDiv.appendChild(img);
       }
@@ -595,8 +503,9 @@ Overall, remote control swimming pool LED lights are a versatile and stylish lig
       renderThumbnails();
     }
     document.getElementById('mainImage').onclick = function() { openLightbox(currentImg); }
+
     // --- LIGHTBOX LOGIC ---
-    let lboxThumbStart = 0;
+    let lboxThumbStart = 0, scale = 1;
     function openLightbox(idx) {
       currentImg = idx;
       document.getElementById('lightboxImg').src = galleryImgs[currentImg];
@@ -605,12 +514,12 @@ Overall, remote control swimming pool LED lights are a versatile and stylish lig
       scale = 1; setScale();
       lboxThumbStart = Math.floor(currentImg/THUMBS_PER_PAGE)*THUMBS_PER_PAGE;
       showLightboxThumbs();
+      document.getElementById('modalBg').style.display = 'none'; // Hide modal if open
     }
     function closeLightbox(e) {
       if(e.target.id == "lightboxOverlay" || e.target.classList.contains("lightbox-close"))
         document.getElementById('lightboxOverlay').classList.remove('active');
     }
-    let scale = 1;
     function zoomIn(e) { e.stopPropagation(); if(scale < 2.4) scale += 0.2; setScale(); }
     function zoomOut(e) { e.stopPropagation(); if(scale > 0.6) scale -= 0.2; setScale(); }
     function setScale() { document.getElementById('lightboxImg').style.transform = `scale(${scale})`; }
@@ -648,7 +557,7 @@ Overall, remote control swimming pool LED lights are a versatile and stylish lig
         let img = document.createElement('img');
         img.src = galleryImgs[i];
         img.className = (i === currentImg ? 'active' : '');
-        img.alt = 'Thumb '+(i+1);
+        img.alt = 'Thumbnail image ' + (i + 1);
         img.onclick = () => { currentImg = i; updateLightboxImg();}
         thumbDiv.appendChild(img);
       }
@@ -667,27 +576,117 @@ Overall, remote control swimming pool LED lights are a versatile and stylish lig
         img.classList.toggle('active', (lboxThumbStart+idx)===currentImg);
       });
     }
-    // Keyboard nav — now works on both main page and lightbox!
+    // Keyboard nav for lightbox
     document.addEventListener('keydown', function(e) {
       if(document.getElementById('lightboxOverlay').classList.contains('active')) {
         if(e.key === "ArrowLeft") prevImg(e);
-        if(e.key === "ArrowRight") nextImg(e);
-        if(e.key === "Escape") document.getElementById('lightboxOverlay').classList.remove('active');
-        if(e.key === "+" || e.key === "=") { e.preventDefault(); zoomIn(e);}
-        if(e.key === "-") { e.preventDefault(); zoomOut(e);}
+        else if(e.key === "ArrowRight") nextImg(e);
+        else if(e.key === "Escape") document.getElementById('lightboxOverlay').classList.remove('active');
+        else if(e.key === "+" || e.key === "=") { e.preventDefault(); zoomIn(e);}
+        else if(e.key === "-") { e.preventDefault(); zoomOut(e);}
       }
-      else { // Main gallery - arrow keys
+      else if(document.getElementById('modalBg').classList.contains('active')) {
+        if(e.key === "Escape") closeModal();
+      }
+      else {
+        // Main gallery arrow keys
         if(e.key === "ArrowLeft") {
           currentImg = (currentImg - 1 + galleryImgs.length) % galleryImgs.length;
           showImage(currentImg);
-        }
-        if(e.key === "ArrowRight") {
+        } else if(e.key === "ArrowRight") {
           currentImg = (currentImg + 1) % galleryImgs.length;
           showImage(currentImg);
         }
       }
     });
-    // ---- INITIALIZATION ----
+
+    // --- Modal functions ---
+    function openModal() {
+      document.getElementById('modalBg').classList.add('active');
+      document.getElementById('name').focus();
+    }
+    function closeModal() {
+      document.getElementById('modalBg').classList.remove('active');
+      // Return focus to buy button
+      document.querySelector('.product-details .buy').focus();
+    }
+    // Close modal on bg click
+    document.getElementById('modalBg').onclick = function(e) {
+      if(e.target === this) closeModal();
+    };
+
+    // Submit form via WhatsApp
+    function submitFormToWhatsApp(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const dept = document.getElementById('department').value;
+      const message = document.getElementById('message').value.trim();
+      const queryType = document.querySelector('input[name="queryType"]:checked').value;
+
+      // Validate phone format (accept digits, spaces, plus)
+      const phonePattern = /^[0-9+ ]{7,15}$/;
+      if(!phonePattern.test(phone)) {
+        alert("Please enter a valid phone number.");
+        document.getElementById('phone').focus();
+        return false;
+      }
+
+      const productName = "Underwater LED Light";
+      const price = "₹2,725.00";
+      const voltage = "12V DC";
+      const wattage = "18W";
+      const lightBody = "ABS Body";
+      const whatsappNumber = "919818090341"; // India number without "+"
+
+      const waMsg =
+        `*Contact Enquiry*\n\n` +
+        `*Product Name:* ${productName}\n` +
+        `*Price:* ${price}\n` +
+        `*Voltage:* ${voltage}\n` +
+        `*Wattage:* ${wattage}\n` +
+        `*Light Body:* ${lightBody}\n\n` +
+        `*Name:* ${name}\n` +
+        `*Email:* ${email}\n` +
+        `*Phone:* ${phone}\n` +
+        `*Department:* ${dept}\n` +
+        (message ? `*Message:* ${message}\n` : "") +
+        `*Type:* ${queryType}\n\n` +
+        `Please give me Quotation.`;
+
+      const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waMsg)}`;
+      window.open(waLink, "_blank", "noopener");
+      closeModal();
+      return false;
+    }
+
+    // WhatsApp direct message for Buy Now
+    function sendWhatsAppMessage() {
+      const productName = "Underwater LED Light";
+      const price = "₹2,725.00";
+      const voltage = "12V DC";
+      const wattage = "18W";
+      const lightBody = "ABS Body";
+      const message =
+        `*Product Name:* ${productName}\n` +
+        `*Price:* ${price}\n` +
+        `*Voltage:* ${voltage}\n` +
+        `*Wattage:* ${wattage}\n` +
+        `*Light Body:* ${lightBody}\n\n` +
+        `Please give me Quotation.`;
+
+      const whatsappNumber = "919818090341";
+      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank", "noopener");
+    }
+    // Phone call button
+    function callNow() {
+      window.location.href = "tel:+919818090341";
+    }
+
+    // Initialization after DOM ready
     document.addEventListener('DOMContentLoaded', function(){
       document.getElementById('mainImage').src = galleryImgs[currentImg];
       renderThumbnails();
