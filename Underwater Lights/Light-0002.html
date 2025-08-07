@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Underwater LED Light - Water Scape</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f9f9f9; color: #333; }
+    .container { max-width: 1000px; margin: auto; padding: 20px; }
+    .product-header { display: flex; flex-wrap: wrap; gap: 20px; background: white; padding: 20px; }
+    .image-gallery { width: 300px; flex-shrink: 0; position: relative;}
+    #mainImage { width: 300px; height: 300px; object-fit: cover; border-radius: 8px; background: #f4f4f4; border: 1px solid #ddd; display:block; margin:auto; cursor:pointer;}
+    .thumb-strip-wrapper { display: flex; align-items: center; justify-content: center;}
+    .thumbnails-nav-btn {
+      border: none; background: none; font-size: 2em; color: #1459c1; cursor: pointer; padding: 0 8px; line-height: 1;
+      user-select: none; transition: color .2s;
+    }
+    .thumbnails-nav-btn:disabled { color: #ccc; cursor: default;}
+    .thumbnails3 { display: flex; gap: 8px; margin-top: 10px;}
+    .thumbnails3 img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; transition: border-color 0.3s; }
+    .thumbnails3 img.active, .thumbnails3 img:hover { border-color: #12946b;}
+    .product-details { flex: 1; min-width: 250px; }
+    .product-details h1 { margin-top: 0; font-size: 1.8em; color: #1459c1;}
+    .price { font-size: 1.5em; color: rgb(0, 126, 0); font-weight: bold; margin: 15px 0;}
+    button.buy { background-color: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; transition: background-color 0.3s;}
+    button.buy:hover { background-color: #218838;}
+    table { width: 100%; margin-top: 20px; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);}
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd;}
+    .description { background: white; margin-top: 20px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.5;}
+    /* Lightbox/Modal styles */
+    #lightboxOverlay {
+      display: none; position: fixed; z-index: 9999; left: 0; top: 0;
+      width: 100vw; height: 100vh; background: rgba(30,30,30,0.92);
+      align-items: center; justify-content: center; flex-direction: column;
+    }
+    #lightboxOverlay.active { display: flex; }
+    #lightboxContent { position: relative; display: flex; align-items: center; flex-direction: column; max-width: 90vw; max-height: 90vh; }
+    #lightboxImgBox {
+      display: flex; align-items: center; justify-content: center; background: #fff;
+      border-radius: 9px; max-width: 80vw; max-height: 80vh; overflow: hidden; position: relative;
+    }
+    #lightboxImg { max-width: 80vw; max-height: 80vh; background: #fff; display: block; border-radius: 9px;
+      transform: scale(1); transition: transform 0.2s; margin: 0 auto;}
+    .lightbox-toolbar {
+      position: absolute; top: 12px; right: 16px; z-index: 20; display: flex; gap: 12px; background: rgba(35,35,35,0.32); padding: 7px 14px; border-radius: 25px;
+    }
+    .lightbox-icon {
+      text-decoration: none !important;
+      color: #fff; font-size: 1.48em; background: none; border: none; cursor: pointer; padding: 5px;
+      transition: background 0.15s, color 0.15s; border-radius: 50%; line-height:1; outline: none;
+    }
+    .lightbox-icon:hover { background: #222; color: #18f79b; }
+    .lightbox-close {
+      color: #2f2b2b;
+      background: rgba(255, 255, 255, 0.95);
+      border: none; font-size: 1.7em; border-radius: 50%;
+      width: 38px; height: 38px; line-height: 38px; text-align: center;
+      box-shadow: 0 2px 10px #0003; cursor: pointer; position: absolute;
+      top: 15px; left: 22px; z-index: 25; outline: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lightbox-close:hover {
+      background: #A9A9A9;
+      color: #fff;
+    }
+    .lightbox-nav {
+      color: #222; font-size: 2.3em; background: #fff; opacity: 0.92;
+      border: none; position: absolute; top: 49%; transform: translateY(-50%);
+      cursor: pointer; padding: 16px 16px; border-radius: 50%; z-index: 22;
+      user-select: none; transition: background 0.2s; box-shadow: 0 0 7px #0003; outline: none;
+    }
+    .lightbox-prev { left: -50px; }
+    .lightbox-next { right: -50px; }
+    #lightboxThumbStrip { display: flex; align-items: center; justify-content: center; margin: 20px 0 4px 0;}
+    #lightboxThumbs { display: flex; gap: 10px; }
+    #lightboxThumbs img {
+      width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #eee; cursor: pointer; box-shadow:0 0 2px #3334;
+      transition: border .2s; background: #fafafa;
+    }
+    #lightboxThumbs img.active, #lightboxThumbs img:hover { border: 2px solid #12946b; }
+    .lightbox-thumbnails-nav-btn {
+      border: none; background: none; font-size: 2em; color: #fff; cursor: pointer; padding: 0 8px; line-height: 1;
+      user-select: none; transition: color .2s;
+    }
+    .lightbox-thumbnails-nav-btn:disabled { color: #555; cursor: default;}
+    @media (max-width:700px) {
+      #mainImage, .image-gallery { width: 100vw; }
+      #mainImage { height: 50vw; max-width: 100vw; }
+      #lightboxContent { max-width: 98vw; }
+      #lightboxImgBox { max-width: 98vw; }
+      #lightboxImg { max-width: 98vw; }
+      .lightbox-prev { left: 8px; }
+      .lightbox-next { right: 8px; }
+    }
+        .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      margin: 5px;
+      background-color: #28a745;
+      transition: background-color 0.3s;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background-color: #218838;
+    }
+
+
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 40px; }
+    .buy { background: #28a745; color: #fff; padding: 12px 25px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+    .buy:hover { background: #218838; }
+    .modal-bg { position: fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(42,42,42,0.5); display:none; align-items:center; justify-content:center; z-index:90;}
+    .modal-bg.active { display:flex; }
+    .contact-modal {
+      background: #fff; border-radius: 10px; max-width: 400px; width: 95vw;
+      box-shadow: 0 8px 48px #0004; padding: 28px 18px 15px 18px;
+      position: relative; z-index:99; animation: fadeInUp 0.25s both;
+      box-sizing: border-box;
+    }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(40px);} to { opacity:1; transform:none; } }
+    .contact-modal h2 { margin-top:0; font-size:1.5em; color:#1459c1; }
+    .contact-modal label { display:block; margin:10px 0 4px 0; color:#333; font-weight:500;}
+    .contact-modal input, .contact-modal textarea, .contact-modal select {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding:8px 11px; margin-bottom:7px; border:1px solid #ccc; border-radius:5px; font-size:1em; background:#f8f8f8;
+      display: block;
+    }
+    .contact-modal textarea { min-height: 60px; resize:vertical;}
+    .close-modal {
+      background: rgba(220,220,220,0.93); color: #111; border: none; border-radius: 50%;
+      font-size: 1.7em; width:38px; height:38px; line-height:38px; text-align:center;
+      position:absolute; top:12px; right:12px; cursor:pointer; box-shadow:0 2px 10px #0003;
+      transition: background 0.2s, color 0.2s;
+    }
+    .close-modal:hover { background: #ff5c5c; color:#fff; }
+    .form-radio-row {
+      display: flex;
+      gap: 20px;
+      margin: 12px 0 10px 0;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+    .form-radio-row label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: normal;
+      cursor: pointer;
+      margin: 0;
+    }
+    .submit-btn { width:100%; margin-top:8px; }
+    @media (max-width: 480px) {
+      .contact-modal { padding: 14px 4vw 10px 4vw;}
+    }
+    .prod-links a {
+      display: flex; align-items: center; gap: 8px; color: #1459c1; text-decoration: none; font-weight: 500;
+      margin-top: 4px; font-size: 1.09em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="product-header">
+      <div class="image-gallery">
+        <img id="mainImage" src="Light-0002/Light-0002.jpg" alt="Underwater LED Light" onclick="openLightbox(currentImg)" />
+        <div class="thumb-strip-wrapper" style="margin-top: 10px;">
+          <button class="thumbnails-nav-btn" id="thumbLeftBtn" onclick="thumbSlide(-1)" disabled>&lt;</button>
+          <div class="thumbnails3" id="thumbnails"></div>
+          <button class="thumbnails-nav-btn" id="thumbRightBtn" onclick="thumbSlide(1)">&gt;</button>
+        </div>
+      </div>
+      <div class="product-details">
+        <h1>Underwater LED Light (For Fountain)</h1>
+        <div class="price">₹3,255 / Piece</div>
+  <div class="prod-links">
+
+  <!-- Here paste the product video & brochure links -->
+  <div style="display: flex; gap: 35px; align-items: center; margin: 25px 0 10px 0; font-size: 1.09em;">
+    <!-- Product Video link with icon -->
+    <a href="javascript:void(0)" onclick="alert('Product Video is not Available')"
+      style="display: flex; align-items: center; gap:8px; color: #1459c1; text-decoration: none; font-weight: 500;">
+      <span style="display:inline-block; vertical-align: middle;">
+        <!-- Video icon SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="#e14616" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="11" fill="#fff" stroke="#e14616" stroke-width="1.8"/>
+          <polygon points="10,8 17,12 10,16" fill="#e14616"/>
+        </svg>
+      </span>
+      Product Video
+    </a>
+
+    <!-- Product Brochure link with icon -->
+    <a href="not available" target="_blank"
+      style="display: flex; align-items: center; gap:8px; color: #1459c1; text-decoration: none; font-weight: 500;">
+      <span style="display:inline-block; vertical-align: middle;">
+        <!-- PDF icon SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" fill="none" viewBox="0 0 20 22">
+          <rect x="1.1" y="1.6" width="17.8" height="18.7" rx="2.2" fill="#fff" stroke="#ff0707" stroke-width="1.5"/>
+          <rect x="3.7" y="4.5" width="12.7" height="13.2" rx="1.2" fill="#ff0707"/>
+          <text x="10.2" y="13.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="6" fill="#fff" font-weight="bold">PDF</text>
+        </svg>
+      </span>
+      Product Brochure
+    </a>
+  </div>
+
+  <!-- Rest of your product details -->
+</div>
+
+  <button class="buy" onclick="openModal()">Buy Now</button>
+
+  <!-- Modal form popup -->
+  <div class="modal-bg" id="modalBg">
+    <form class="contact-modal" id="contactForm" onsubmit="return submitFormToWhatsApp(event)">
+      <button type="button" class="close-modal" onclick="closeModal()">&times;</button>
+      <h2>Contact information</h2>
+      <label for="name">Your Name</label>
+      <input id="name" name="name" required autocomplete="name" />
+
+      <label for="email">Your E-mail</label>
+      <input id="email" name="email" required type="email" autocomplete="email" />
+
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" required type="tel" autocomplete="tel" maxlength="15" />
+
+      <label for="department">Select Department</label>
+      <select id="department" name="department" required>
+        <option value="" disabled selected>Choose...</option>
+        <option>General</option>
+        <option>Sales</option>
+        <option>Support</option>
+        <option>Other</option>
+      </select>
+
+      <label for="message">Your Message</label>
+      <textarea id="message" name="message" placeholder="Type your message here..."></textarea>
+
+      <div class="form-radio-row">
+        <label>
+          <input type="radio" name="queryType" value="General" checked /> General
+        </label>
+        <label>
+          <input type="radio" name="queryType" value="Hi" /> Say Hi
+        </label>
+        <label>
+          <input type="radio" name="queryType" value="Other" /> Other
+        </label>
+      </div>
+
+      <button type="submit" class="buy submit-btn">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    function openModal()   { document.getElementById('modalBg').classList.add('active'); }
+    function closeModal()  { document.getElementById('modalBg').classList.remove('active'); }
+    // Optional: close on outside click
+    document.getElementById('modalBg').onclick = function(e) {
+      if(e.target === this) closeModal();
+    };
+
+    function submitFormToWhatsApp(event) {
+      event.preventDefault();
+
+      // Get form values
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const dept = document.getElementById('department').value;
+      const message = document.getElementById('message').value.trim();
+      const queryType = document.querySelector('input[name="queryType"]:checked').value;
+
+//You can customize the product details below
+      // Product details (customize yahan)
+      const productName = "Swimming Pool LED Light";
+      const price = "₹3,255.00";
+      const voltage = "12V DC";
+      const wattage = "18W";
+      const lightBody = "SS 304 Body";
+      const whatsappNumber = "919818090341"; // Only digits, no +
+//End of recent edits
+
+      // Message
+      const waMsg =
+        `*Contact Enquiry*\n\n` +
+        `*Product Name:* ${productName}\n` +
+        `*Price:* ${price}\n` +
+        `*Voltage:* ${voltage}\n` +
+        `*Wattage:* ${wattage}\n` +
+        `*Light Body:* ${lightBody}\n\n` +
+        `*Name:* ${name}\n`  +
+        `*Email:* ${email}\n`  +
+        `*Phone:* ${phone}\n` +
+        `*Department:* ${dept}\n` +
+        (message ? `*Message:* ${message}\n` : "") +
+        `*Type:* ${queryType}\n\n` +
+        `Please give me Quotation.`;
+
+      const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waMsg)}`;
+      window.open(waLink, "_blank");
+      closeModal();
+      return false;
+    }
+  </script>
+
+  <!-- Buy Now Button -->
+  <button class="buy" onclick="sendWhatsAppMessage()">
+    Buy Now on WhatsApp
+  </button>
+
+  <!-- Call Now Button (same style, just as a link for direct call) -->
+  <a href="tel:+919818090341" class="btn">
+    Call Now
+  </a>
+
+
+  <script>
+    function sendWhatsAppMessage() {
+      const productName = "Swimming Pool LED Light";
+      const price = "₹3,255.00";
+      const voltage = "12V";
+      const wattage = "18W";
+      const lightBody = "SS 304 Body";
+
+      // Message format with line breaks \n
+      const message = 
+        `*Product Name:* ${productName}\n` +
+        `*Price:* ${price}\n` +
+        `*Voltage:* ${voltage}\n` +
+        `*Wattage:* ${wattage}\n` +
+        `*Light Body:* ${lightBody}\n\n` +
+        `Please give me Quotation.`;
+
+      // WhatsApp Click-to-Chat link (India number without "+")
+      const whatsappNumber = "919818090341"; 
+      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+      // Open WhatsApp chat window in new tab
+      window.open(url, "_blank");
+    }
+  </script>
+
+
+      </div>
+    </div>
+    <table>
+      <tr><th>Wattage</th><td>18W</td></tr>
+      <tr><th>Lighting Color</th><td>Warm White / Multi Color</td></tr>
+      <tr><th>Body Material</th><td>SS 304 Body</td></tr>
+      <tr><th>Waterproof</th><td>IP68</td></tr>
+      <tr><th>Voltage</th><td>12V DC</td></tr>
+      <tr><th>Output Wattage</th><td>18W</td></tr>
+      <tr><th>Features</th><td>Energy Efficient, Waterproof, Remote Control</td></tr>
+      <tr><th>Remote</th><td>Multi Function with Brightness & Color Control</td></tr>
+      <tr><th>Warranty</th><td>1 Year</td></tr>
+      <tr><th>Brand</th><td>Water Scape</td></tr>
+      <tr><th>Country of Origin</th><td>Made in India</td></tr>
+
+    </table>
+    <div class="description">
+      <h2>Product Description</h2>
+      <p><b>Swimming Pool LED Light</b> – ₹3,255/Piece<br>
+Offered by: <b>Water Scape Engineering</b><br>
+Trusted Since 1997 | Stainless Steel Body | Multi-Color Illumination | ISO 9001:2015 Certified
+<br><br>
+<strong>Product Description:</strong> 
+<br>Light up your pool with brilliance and durability using our Swimming Pool LED Light, designed to deliver vibrant Multi-Color illumination while maintaining high safety standards. Built with a stainless steel body and IP-rated waterproofing, this light is ideal for residential and commercial swimming pools. Its low 12V input ensures safe underwater use, while the round design offers seamless integration into your pool layout.
+<br><br>
+<strong>🛠 Key Specifications:</strong>
+<br>
+<ul>
+<li>Price: <b>₹3,255/Piece</b></li>
+<li>Body Material: <b>Stainless Steel</b></li>
+<li>Lighting Color: <b>Multi Color</b></li>
+<li>Color (Outer Body): <b>Blue</b></li>
+<li>Bulb Type: <b>LED</b></li>
+<li>Shape: <b>Round</b></li>
+<li>Voltage: <b>12V</b></li>
+<li>Wattage: <b>18W</b></li>
+<li>Usage/Application: <b>Swimming Pool Light</b></li>
+<li>Packing Type: <b>Box</b></li>
+<li>Warranty: <b>1 Year</b></li>
+<li>Certification: <b>ISO 9001:2015</b></li>
+<li>Brand: <b>Water Scape</b></li>
+<li>Country of Origin: <b>Made in India</b></li>
+</ul>
+<br>
+Company Profile:<br>
+Established in 1997, Water Scape Engineering is a reputed manufacturer specializing in Water Sheet Fountains, Jet Fountains, Crown Ring Fountains, and Swimming Pool Lights. With decades of expertise and ISO 9001:2015 certification, we deliver superior quality products backed by innovation, durability, and customer satisfaction.
+<br><br>
+Why Choose Us?<br>
+✅ Trusted Brand Since 1997<br>
+✅ Premium Build & Finish<br>
+✅ Safe Low Voltage Operation<br>
+✅ Brilliant Multi-Color LED Illumination<br>
+✅ Timely Delivery & After-Sales Support<br>
+<br>
+📞 Contact Us Today:<br>
+📧 info@waterscapeengineering.com |<br>                                                                        📱 +91 9818090341, +91 9263529454
+<br>🌐 www.waterscapeengineering.com<br>
+        
+      <ul>
+        <li><b>Design:</b> Submersible, round, ABS Body.</li>
+        <li><b>Technology:</b> 9 LEDs (3W each), long life, efficient.</li>
+        <li><b>Remote:</b> Multi-function remote with brightness and effect control.</li>
+        <li><b>Certified:</b> ISO 9001:2015.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX OVERLAY (with paging thumbs) -->
+  <div id="lightboxOverlay" onclick="closeLightbox(event)">
+    <div id="lightboxContent" onclick="event.stopPropagation();">
+      <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+      <div class="lightbox-toolbar">
+        <button class="lightbox-icon" title="Zoom In" onclick="zoomIn(event)">&#128269;+</button>
+        <button class="lightbox-icon" title="Zoom Out" onclick="zoomOut(event)">&#128269;-</button>
+        <a class="lightbox-icon" id="downloadLink" title="Download" download href="#" onclick="event.stopPropagation();">&#128229;</a>
+      </div>
+      <div id="lightboxImgBox">
+        <button class="lightbox-nav lightbox-prev" onclick="prevImg(event)">&laquo;</button>
+        <img id="lightboxImg" src="" alt="Image preview">
+        <button class="lightbox-nav lightbox-next" onclick="nextImg(event)">&raquo;</button>
+      </div>
+      <!-- Paginated thumbnail bar below -->
+      <div id="lightboxThumbStrip">
+        <button class="lightbox-thumbnails-nav-btn" id="lightboxThumbLeftBtn" onclick="lightboxThumbSlide(-1)" disabled>&lt;</button>
+        <div id="lightboxThumbs"></div>
+        <button class="lightbox-thumbnails-nav-btn" id="lightboxThumbRightBtn" onclick="lightboxThumbSlide(1)">&gt;</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // USE YOUR OWN IMAGE PATHS!
+    const galleryImgs = [
+      "Light-0002/Light-0002.jpg",
+      "Light-0002/Light-0002-2.jpg",
+      "Light-0002/Light-0002-3.jpg",
+      "Light-0002/Light-0002-4.jpg",
+
+      // add up to 15 images
+    ];
+    let currentImg = 0, thumbStart = 0, THUMBS_PER_PAGE = 3;
+    // Main page thumbnail strip logic
+    function renderThumbnails() {
+      const thumbDiv = document.getElementById('thumbnails');
+      thumbDiv.innerHTML = '';
+      const end = Math.min(thumbStart + THUMBS_PER_PAGE, galleryImgs.length);
+      for(let i=thumbStart; i<end; i++) {
+        const img = document.createElement('img');
+        img.src = galleryImgs[i];
+        img.className = (i === currentImg ? 'active' : '');
+        img.alt = "Thumb "+(i+1);
+        img.onclick = ()=> showImage(i);
+        thumbDiv.appendChild(img);
+      }
+      document.getElementById('thumbLeftBtn').disabled = (thumbStart <= 0);
+      document.getElementById('thumbRightBtn').disabled = (end >= galleryImgs.length);
+    }
+    function showImage(idx) {
+      currentImg = idx;
+      document.getElementById('mainImage').src = galleryImgs[currentImg];
+      if(currentImg < thumbStart) thumbStart = currentImg;
+      if(currentImg >= thumbStart + THUMBS_PER_PAGE) thumbStart = currentImg - THUMBS_PER_PAGE + 1;
+      renderThumbnails();
+    }
+    function thumbSlide(dir) {
+      thumbStart += dir * THUMBS_PER_PAGE;
+      if(thumbStart < 0) thumbStart = 0;
+      if(thumbStart > galleryImgs.length-THUMBS_PER_PAGE)
+        thumbStart = galleryImgs.length-THUMBS_PER_PAGE;
+      renderThumbnails();
+    }
+    document.getElementById('mainImage').onclick = function() { openLightbox(currentImg); }
+    // --- LIGHTBOX LOGIC ---
+    let lboxThumbStart = 0;
+    function openLightbox(idx) {
+      currentImg = idx;
+      document.getElementById('lightboxImg').src = galleryImgs[currentImg];
+      setDownloadLink();
+      document.getElementById('lightboxOverlay').classList.add('active');
+      scale = 1; setScale();
+      lboxThumbStart = Math.floor(currentImg/THUMBS_PER_PAGE)*THUMBS_PER_PAGE;
+      showLightboxThumbs();
+    }
+    function closeLightbox(e) {
+      if(e.target.id == "lightboxOverlay" || e.target.classList.contains("lightbox-close"))
+        document.getElementById('lightboxOverlay').classList.remove('active');
+    }
+    let scale = 1;
+    function zoomIn(e) { e.stopPropagation(); if(scale < 2.4) scale += 0.2; setScale(); }
+    function zoomOut(e) { e.stopPropagation(); if(scale > 0.6) scale -= 0.2; setScale(); }
+    function setScale() { document.getElementById('lightboxImg').style.transform = `scale(${scale})`; }
+    function setDownloadLink() {
+      let imgSrc = galleryImgs[currentImg];
+      let link = document.getElementById('downloadLink');
+      link.href = imgSrc;
+      link.setAttribute("download", imgSrc.split('/').pop());
+    }
+    function prevImg(e) {
+      e.stopPropagation();
+      currentImg = (currentImg - 1 + galleryImgs.length) % galleryImgs.length;
+      updateLightboxImg();
+    }
+    function nextImg(e) {
+      e.stopPropagation();
+      currentImg = (currentImg + 1) % galleryImgs.length;
+      updateLightboxImg();
+    }
+    function updateLightboxImg() {
+      document.getElementById('lightboxImg').src = galleryImgs[currentImg];
+      setDownloadLink();
+      scale = 1; setScale();
+      if(currentImg < lboxThumbStart) lboxThumbStart = currentImg;
+      if(currentImg >= lboxThumbStart + THUMBS_PER_PAGE)
+        lboxThumbStart = currentImg - THUMBS_PER_PAGE + 1;
+      showLightboxThumbs();
+      highlightLightboxThumb();
+    }
+    function showLightboxThumbs() {
+      const thumbDiv = document.getElementById('lightboxThumbs');
+      thumbDiv.innerHTML = '';
+      let end = Math.min(lboxThumbStart + THUMBS_PER_PAGE, galleryImgs.length);
+      for(let i=lboxThumbStart; i<end; i++) {
+        let img = document.createElement('img');
+        img.src = galleryImgs[i];
+        img.className = (i === currentImg ? 'active' : '');
+        img.alt = 'Thumb '+(i+1);
+        img.onclick = () => { currentImg = i; updateLightboxImg();}
+        thumbDiv.appendChild(img);
+      }
+      document.getElementById('lightboxThumbLeftBtn').disabled = (lboxThumbStart <= 0);
+      document.getElementById('lightboxThumbRightBtn').disabled = (end >= galleryImgs.length);
+    }
+    function lightboxThumbSlide(dir) {
+      lboxThumbStart += dir * THUMBS_PER_PAGE;
+      if(lboxThumbStart < 0) lboxThumbStart = 0;
+      if(lboxThumbStart > galleryImgs.length-THUMBS_PER_PAGE)
+        lboxThumbStart = galleryImgs.length-THUMBS_PER_PAGE;
+      showLightboxThumbs();
+    }
+    function highlightLightboxThumb() {
+      Array.from(document.querySelectorAll('#lightboxThumbs img')).forEach((img,idx)=> {
+        img.classList.toggle('active', (lboxThumbStart+idx)===currentImg);
+      });
+    }
+    // Keyboard nav — now works on both main page and lightbox!
+    document.addEventListener('keydown', function(e) {
+      if(document.getElementById('lightboxOverlay').classList.contains('active')) {
+        if(e.key === "ArrowLeft") prevImg(e);
+        if(e.key === "ArrowRight") nextImg(e);
+        if(e.key === "Escape") document.getElementById('lightboxOverlay').classList.remove('active');
+        if(e.key === "+" || e.key === "=") { e.preventDefault(); zoomIn(e);}
+        if(e.key === "-") { e.preventDefault(); zoomOut(e);}
+      }
+      else { // Main gallery - arrow keys
+        if(e.key === "ArrowLeft") {
+          currentImg = (currentImg - 1 + galleryImgs.length) % galleryImgs.length;
+          showImage(currentImg);
+        }
+        if(e.key === "ArrowRight") {
+          currentImg = (currentImg + 1) % galleryImgs.length;
+          showImage(currentImg);
+        }
+      }
+    });
+    // ---- INITIALIZATION ----
+    document.addEventListener('DOMContentLoaded', function(){
+      document.getElementById('mainImage').src = galleryImgs[currentImg];
+      renderThumbnails();
+    });
+  </script>
+</body>
+</html>
